@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:layout/detail.dart';
 import 'package:layout/product_data.dart';
 import 'package:layout/services/api_service.dart';
+import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
 
 ////https://fakestoreapi.com/docs
@@ -18,6 +19,7 @@ class ProductGrid2 extends StatefulWidget {
 
 class _ProductGrid2State extends State<ProductGrid2> {
   var log = Logger();
+  var utils = Utils();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,14 @@ class _ProductGrid2State extends State<ProductGrid2> {
         backgroundColor: Colors.purple,
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              utils.makeASnackBar('Your Cart', context);
+            },
+            icon: Image.asset('images/cart7.png'),
+          )
+        ],
       ),
       body: FutureBuilder(
           future: ApiService().getProductsByCategory(myCat),
@@ -46,15 +56,20 @@ class _ProductGrid2State extends State<ProductGrid2> {
                     padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                     child: GestureDetector(
                       onTap: () {
-                        var myProductData =
-                            ProductData(title: snapshot.data[index]['title'],
-                                description: snapshot.data[index]['description'],
-                                category: snapshot.data[index]['category'],
-                                imageUrl: snapshot.data[index]['image'],
-                                price: double.parse(snapshot.data[index]['price'].toString()));
+                        var myProductData = ProductData(
+                            title: snapshot.data[index]['title'],
+                            description: snapshot.data[index]['description'],
+                            category: snapshot.data[index]['category'],
+                            imageUrl: snapshot.data[index]['image'],
+                            price: double.parse(
+                                snapshot.data[index]['price'].toString()));
 
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => Detail(data: myProductData,)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Detail(
+                                      data: myProductData,
+                                    )));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -80,11 +95,13 @@ class _ProductGrid2State extends State<ProductGrid2> {
                                 width: 180,
                                 height: 250,
                               ),
-                              Text("\$${snapshot.data[index]['price']}",
-                              style: const TextStyle(
-                                color: Colors.purple,
-                                fontWeight: FontWeight.bold,
-                              ),)
+                              Text(
+                                "\$${snapshot.data[index]['price']}",
+                                style: const TextStyle(
+                                  color: Colors.purple,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
                             ],
                           ),
                         ),

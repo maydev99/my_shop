@@ -22,10 +22,13 @@ dev_dependencies:
   flutter_lints: any
 
 flutter:
+  assets:
+    - images/cart2.png
+    - images/cart3.png
+    - images/cart5.jpg
+    - images/cart7.png
   uses-material-design: true
   fonts:
     - family: WhiteDream
       fonts:
         - asset: fonts/whitedream.otf
-  # assets:
-  #  - images/rainier.jpg

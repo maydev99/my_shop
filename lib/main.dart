@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/product_grid2.dart';
+import 'package:layout/utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  var utils = Utils();
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarBrightness: Brightness.dark
         ),
+        actions: <Widget> [
+          IconButton(onPressed: () {
+            utils.makeASnackBar('Your Cart', context);
+          }, icon: Image.asset('images/cart7.png'),
+          )
+        ],
       ),
 
       body: Center(
