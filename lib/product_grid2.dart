@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:layout/models/products_data.dart';
+import 'package:layout/detail.dart';
+import 'package:layout/product_data.dart';
+import 'package:layout/services/api_service.dart';
 import 'package:logger/logger.dart';
 
 ////https://fakestoreapi.com/docs
@@ -17,53 +18,6 @@ class ProductGrid2 extends StatefulWidget {
 
 class _ProductGrid2State extends State<ProductGrid2> {
   var log = Logger();
-  List<CustomProduct> customProductList = [];
-
-  @override
-  void initState() {
-    makeNetworkCall(widget.myCategory);
-    super.initState();
-  }
-
-  void makeNetworkCall(String myCategory) async {
-    var response = await Dio()
-        .get('https://fakestoreapi.com/products/category/$myCategory');
-
-    if (response.statusCode == 200) {
-      var productData = ProductsData.fromJson(response.data);
-
-      customProductList.clear();
-      List<ProductsData>? data = productData as List<ProductsData>?;
-      for (var product in data!) {
-        customProductList.add(CustomProduct(
-            product.title.toString(),
-            product.price.toString(),
-            product.description.toString(),
-            product.category.toString(),
-            product.image.toString()));
-
-       log.i(product.title);
-      }
-
-
-      log.i('Size: ${customProductList.length}');
-    }
-    /*setState(() {
-      try {
-        var rawData = ProductsData.fromJson(response);
-        //var productTitle = rawData.title;
-        log.i(productTitle);
-        */ /*var rawData = Drink.fromJson(response.data);
-        name = rawData.strDrink;
-        imageUrl = rawData.strDrinkThumb.toString();
-        instructions = rawData.strInstructions;
-        logger.i(imageUrl);*/ /*
-
-      } catch (e) {
-        log.e(e);
-      }
-    });*/
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +25,79 @@ class _ProductGrid2State extends State<ProductGrid2> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text(myCat),
+        title: Text(
+          myCat.toUpperCase(),
+        ),
         titleTextStyle: const TextStyle(color: Colors.white),
         backgroundColor: Colors.purple,
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
       ),
+      body: FutureBuilder(
+          future: ApiService().getProductsByCategory(myCat),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 2 / 4,
+                shrinkWrap: true,
+                children: List.generate(snapshot.data.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        var myProductData =
+                            ProductData(title: snapshot.data[index]['title'],
+                                description: snapshot.data[index]['description'],
+                                category: snapshot.data[index]['category'],
+                                imageUrl: snapshot.data[index]['image'],
+                                price: double.parse(snapshot.data[index]['price'].toString()));
+
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => Detail(data: myProductData,)));
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24.0)),
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Flexible(
+                                child: RichText(
+                                  overflow: TextOverflow.fade,
+                                  strutStyle: const StrutStyle(fontSize: 12.0),
+                                  text: TextSpan(
+                                    style: const TextStyle(color: Colors.black),
+                                    text: snapshot.data[index]['title'],
+                                  ),
+                                ),
+                              ),
+                              Image.network(
+                                snapshot.data[index]['image'],
+                                width: 180,
+                                height: 250,
+                              ),
+                              Text("\$${snapshot.data[index]['price']}",
+                              style: const TextStyle(
+                                color: Colors.purple,
+                                fontWeight: FontWeight.bold,
+                              ),)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }
