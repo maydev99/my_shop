@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bombadu.my_shop">
    <application
-        android:label="my_shop"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Shoppe"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

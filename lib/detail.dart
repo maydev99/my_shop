@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:layout/cart_db/cart_entity.dart';
+import 'package:layout/cart_db/database.dart';
 import 'package:layout/product_data.dart';
+import 'package:layout/shopping_cart.dart';
+import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
 
 class Detail extends StatelessWidget {
@@ -30,6 +34,8 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   var log = Logger();
+  var utils = Utils();
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
               const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
           actions: <Widget> [
             IconButton(onPressed: () {
-              makeASnackBar('Your Cart', context);
+              utils.navigateToShoppingCart(context);
             }, icon: Image.asset('images/cart7.png'),
             )
           ],
@@ -96,10 +102,22 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
             ),
-            Padding(
+
+            Padding( //**********Add To Cart Button***********
               padding: const EdgeInsets.all(16.0),
-              child: MaterialButton(onPressed: () {
-                makeASnackBar('Added to Cart', context);
+              child: MaterialButton(onPressed: () async{
+                //utils.makeASnackBar('Added to Cart', context);
+                final database = await $FloorAppDatabase.databaseBuilder('my_database.db').build();
+                final cartDao = database.cartDao;
+                var addedItem = CartEntity(
+                    title: myData.title,
+                    description: myData.description,
+                    category: myData.category,
+                    imageUrl: myData.imageUrl,
+                    price: myData.price,
+                    quantity: 1);
+
+                cartDao.insertCartItem(addedItem);
               },
               color: Colors.purple,
               textColor: Colors.white,
@@ -114,11 +132,4 @@ class _DetailPageState extends State<DetailPage> {
   }
 }
 
-void makeASnackBar(String message, BuildContext context) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      duration: const Duration(milliseconds: 1000),
-    ),
-  );
-}
+

@@ -21,6 +21,7 @@ class _ProductGrid2State extends State<ProductGrid2> {
   var log = Logger();
   var utils = Utils();
 
+
   @override
   Widget build(BuildContext context) {
     String myCat = widget.myCategory;
@@ -37,7 +38,7 @@ class _ProductGrid2State extends State<ProductGrid2> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              utils.makeASnackBar('Your Cart', context);
+              utils.navigateToShoppingCart(context);
             },
             icon: Image.asset('images/cart7.png'),
           )

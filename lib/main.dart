@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:layout/cart_db/database.dart';
 import 'package:layout/product_grid2.dart';
 import 'package:layout/utils.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = await $FloorAppDatabase.databaseBuilder('my_database.db').build();
+  final dao = database.cartDao;
   runApp(const MyApp());
 }
 
@@ -51,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget> [
           IconButton(onPressed: () {
-            utils.makeASnackBar('Your Cart', context);
+            utils.navigateToShoppingCart(context);
           }, icon: Image.asset('images/cart7.png'),
           )
         ],
