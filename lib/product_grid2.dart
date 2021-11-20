@@ -21,7 +21,6 @@ class _ProductGrid2State extends State<ProductGrid2> {
   var log = Logger();
   var utils = Utils();
 
-
   @override
   Widget build(BuildContext context) {
     String myCat = widget.myCategory;
@@ -68,7 +67,7 @@ class _ProductGrid2State extends State<ProductGrid2> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Detail(
+                                builder: (context) => DetailPage(
                                       data: myProductData,
                                     )));
                       },

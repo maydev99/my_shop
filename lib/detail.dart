@@ -3,30 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
 import 'package:layout/product_data.dart';
-import 'package:layout/shopping_cart.dart';
 import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
 
-class Detail extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final ProductData data;
 
-  const Detail({Key? key, required this.data}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AppTitle',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: DetailPage(productData: data),
-    );
-  }
-}
-
-class DetailPage extends StatefulWidget {
-  final ProductData productData;
-
-  const DetailPage({Key? key, required this.productData}) : super(key: key);
+  const DetailPage({Key? key, required this.data}) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -39,9 +22,12 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var myData = widget.productData;
+    var myData = widget.data;
     return Scaffold(
         appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Colors.white
+          ),
           title: const Text('PRODUCT DETAIL'),
           titleTextStyle: const TextStyle(color: Colors.white),
           backgroundColor: Colors.purple,
@@ -118,6 +104,8 @@ class _DetailPageState extends State<DetailPage> {
                     quantity: 1);
 
                 cartDao.insertCartItem(addedItem);
+                Navigator.of(context).pop();
+                utils.makeASnackBar('Item added to Cart', context);
               },
               color: Colors.purple,
               textColor: Colors.white,
