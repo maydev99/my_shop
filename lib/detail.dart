@@ -18,25 +18,39 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   var log = Logger();
   var utils = Utils();
+  int qty = 1;
 
+  void increment() {
+    setState(() {
+      qty++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (qty > 0) {
+        qty--;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var myData = widget.data;
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Colors.white
-          ),
+          iconTheme: const IconThemeData(color: Colors.white),
           title: const Text('PRODUCT DETAIL'),
           titleTextStyle: const TextStyle(color: Colors.white),
           backgroundColor: Colors.purple,
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-          actions: <Widget> [
-            IconButton(onPressed: () {
-              utils.navigateToShoppingCart(context);
-            }, icon: Image.asset('images/cart7.png'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                utils.navigateToShoppingCart(context);
+              },
+              icon: Image.asset('images/cart7.png'),
             )
           ],
         ),
@@ -88,36 +102,67 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FloatingActionButton.small(
+                    onPressed: () {
+                      decrement();
+                    },
+                    backgroundColor: Colors.white,
+                    child: const Icon(Icons.remove),
+                    heroTag: 'subtractButton',
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '$qty',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  FloatingActionButton.small(
+                    onPressed: () {
+                      increment();
+                    },
+                    backgroundColor: Colors.white,
+                    child: const Icon(Icons.add),
+                    heroTag: 'plusButton',
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              //**********Add To Cart Button***********
+              padding: const EdgeInsets.only(top: 24.0, left: 16, right: 16, bottom: 24),
+              child: MaterialButton(
+                onPressed: () async {
+                  //utils.makeASnackBar('Added to Cart', context);
+                  final database = await $FloorAppDatabase
+                      .databaseBuilder('my_database.db')
+                      .build();
+                  final cartDao = database.cartDao;
+                  var addedItem = CartEntity(
+                      title: myData.title,
+                      description: myData.description,
+                      category: myData.category,
+                      imageUrl: myData.imageUrl,
+                      price: myData.price,
+                      quantity: qty);
 
-            Padding( //**********Add To Cart Button***********
-              padding: const EdgeInsets.all(16.0),
-              child: MaterialButton(onPressed: () async{
-                //utils.makeASnackBar('Added to Cart', context);
-                final database = await $FloorAppDatabase.databaseBuilder('my_database.db').build();
-                final cartDao = database.cartDao;
-                var addedItem = CartEntity(
-                    title: myData.title,
-                    description: myData.description,
-                    category: myData.category,
-                    imageUrl: myData.imageUrl,
-                    price: myData.price,
-                    quantity: 1);
-
-                cartDao.insertCartItem(addedItem);
-                Navigator.of(context).pop();
-                utils.makeASnackBar('Item added to Cart', context);
-              },
-              color: Colors.purple,
-              textColor: Colors.white,
-              child: const Text('Add to cart'),
+                  cartDao.insertCartItem(addedItem);
+                  Navigator.of(context).pop();
+                  utils.makeASnackBar('Item added to Cart', context);
+                },
+                color: Colors.purple,
+                textColor: Colors.white,
+                child: const Text('Add to cart'),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)
-                ),
+                    borderRadius: BorderRadius.circular(16)),
               ),
             )
           ],
         ));
   }
 }
-
-

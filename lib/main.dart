@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:layout/cart_db/database.dart';
 import 'package:layout/product_grid2.dart';
 import 'package:layout/utils.dart';
+import 'package:badges/badges.dart';
+import 'package:logger/logger.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +35,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var log = Logger();
+  var utils = Utils();
+
+  //int numItems = utils.getItemCount() as Int;
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -40,11 +47,19 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  var utils = Utils();
+
+
+  /*Future<void> getData() async {
+    final database =
+    await $FloorAppDatabase.databaseBuilder('my_database.db').build();
+    var myDao = database.cartDao;
+  }*/
 
 
   @override
   Widget build(BuildContext context) {
+   // var numItems = utils.getItemCount();
+    //log.i('Items: $numItems');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shoppe Michael '),

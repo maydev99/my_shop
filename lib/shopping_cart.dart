@@ -16,6 +16,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   var log = Logger();
   var utils = Utils();
   List<CartEntity> myCartList = [];
+  //late double total;
+  double shipping = 5.99;
+  double taxRate = 0.06;
+  double tax = 0.0;
+  double subtotal = 0.0;
+  double totalTotal = 0.0;
 
   @override
   void initState() {
@@ -30,7 +36,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     Stream<List<CartEntity>> myData = myDao.getAllCartItems();
     myData.listen((value) {
       myCartList.clear();
+      subtotal = 0;
       for (var item in value) {
+        var itemTotal = item.price * item.quantity;
+        subtotal = subtotal + itemTotal;
         myCartList.add(CartEntity(
             title: item.title,
             description: item.description,
@@ -41,6 +50,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       }
 
       setState(() {
+        subtotal;
+        tax = subtotal * taxRate;
+        totalTotal = subtotal + tax + shipping;
+
 
       });
 
@@ -79,13 +92,60 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           }, icon: const Icon(Icons.delete))
         ],
       ),
-      body: ListView(
-        children: List.generate(myCartList.length, (index) {
-          return Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: _myCard(myCartList, index),
-          );
-        }),
+      body: Column(
+        children: [
+          _cartSummaryCard(),
+          Expanded(
+            child: ListView(
+              children: List.generate(myCartList.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: _myCard(myCartList, index),
+                );
+              }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Card _cartSummaryCard() {
+    return Card(
+      color: Colors.white,
+      elevation: 10,
+
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children:  [
+            const Text('Shopping Cart Summary',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+            ),),
+            Text('Subtotal: \$${subtotal.toStringAsFixed(2)}',),
+            Text('Tax: \$${tax.toStringAsFixed(2)}'),
+            Text('Shipping: \$${shipping.toStringAsFixed(2)}'),
+            Text('Total: \$${totalTotal.toStringAsFixed(2)}',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold
+            ),),
+            MaterialButton(onPressed: () {
+              utils.makeASnackBar('Thank you for Shopping', context);
+              deleteAll();
+            },
+            child: const Text('Check Out'),
+            color: Colors.purple,
+            textColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16)
+            ),)
+          ],
+
+        ),
       ),
     );
   }
@@ -135,6 +195,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       ),
     );
   }
+
+
 
   void showEmptyDialog() {
     Stack(
