@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
-import 'package:layout/product_data.dart';
-import 'package:layout/providers.dart';
-import 'package:layout/utils.dart';
+import 'package:layout/utils/product_data.dart';
+import 'package:layout/utils/providers.dart';
+import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
-import 'package:layout/product_grid2.dart';
-import 'package:layout/providers.dart';
-import 'package:layout/utils.dart';
+import 'package:layout/ui/product_grid.dart';
+import 'package:layout/utils/providers.dart';
+import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:need_resume/need_resume.dart';
 import 'package:provider/provider.dart';
@@ -128,7 +128,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProductGrid2(
+                            builder: (context) => const ProductGrid(
                                   myCategory: 'electronics',
                                 )));
                   },
@@ -147,7 +147,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProductGrid2(
+                            builder: (context) => const ProductGrid(
                                   myCategory: 'jewelery',
                                 )));
                   },
@@ -166,7 +166,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProductGrid2(
+                            builder: (context) => const ProductGrid(
                                   myCategory: "men's clothing",
                                 )));
                   },
@@ -185,7 +185,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProductGrid2(
+                            builder: (context) => const ProductGrid(
                                   myCategory: "women's clothing",
                                 )));
                   },

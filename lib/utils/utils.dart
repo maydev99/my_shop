@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:layout/shopping_cart.dart';
+import 'package:layout/ui/shopping_cart.dart';
 import 'package:logger/logger.dart';
 
-import 'cart_db/cart_entity.dart';
-import 'cart_db/database.dart';
+import '../cart_db/cart_entity.dart';
+import '../cart_db/database.dart';
 
 var count = 0;
 

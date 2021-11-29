@@ -1,37 +1,34 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:layout/detail.dart';
-import 'package:layout/product_data.dart';
-import 'package:layout/providers.dart';
+import 'package:layout/ui/detail.dart';
+import 'package:layout/utils/product_data.dart';
+import 'package:layout/utils/providers.dart';
 import 'package:layout/services/api_service.dart';
-import 'package:layout/utils.dart';
+import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
-
-import 'cart_db/cart_entity.dart';
-import 'cart_db/database.dart';
 import 'package:provider/provider.dart';
 
 ////https://fakestoreapi.com/docs
 
-class ProductGrid2 extends StatefulWidget {
+class ProductGrid extends StatefulWidget {
   final String myCategory;
 
-  const ProductGrid2({Key? key, required this.myCategory}) : super(key: key);
+  const ProductGrid({Key? key, required this.myCategory}) : super(key: key);
 
   @override
-  _ProductGrid2State createState() => _ProductGrid2State();
+  _ProductGridState createState() => _ProductGridState();
 }
 
-class _ProductGrid2State extends State<ProductGrid2> {
+class _ProductGridState extends State<ProductGrid> {
   @override
   void initState() {
-   // getData();
+    // getData();
     super.initState();
   }
+
   var log = Logger();
   var utils = Utils();
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,8 @@ class _ProductGrid2State extends State<ProductGrid2> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0, top: 8.0),
             child: Badge(
-              badgeContent: Text('${context.watch<CartItemCounter>().itemCount}'),
+              badgeContent:
+                  Text('${context.watch<CartItemCounter>().itemCount}'),
               badgeColor: Colors.yellow,
               child: IconButton(
                 onPressed: () {
