@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
+import 'package:layout/providers.dart';
 import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
@@ -85,12 +87,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         backgroundColor: Colors.purple,
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-        actions: [
-          IconButton(onPressed: () {
-            deleteAll();
-            utils.makeASnackBar('All items cleared from cart', context);
-          }, icon: const Icon(Icons.delete))
-        ],
       ),
       body: Column(
         children: [
@@ -136,6 +132,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             MaterialButton(onPressed: () {
               utils.makeASnackBar('Thank you for Shopping', context);
               deleteAll();
+              context.read<CartItemCounter>().setToZero();
             },
             child: const Text('Check Out'),
             color: Colors.purple,
@@ -182,7 +179,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 child: MaterialButton(
                   onPressed: () async {
                     log.i('Tap');
-                    deleteItemFromCart(myList[index]);
+                    /*context.re
+                    deleteItemFromCart(myList[index]);*/
                     getData();
                   },
                   textColor: Colors.red,

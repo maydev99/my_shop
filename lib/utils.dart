@@ -1,10 +1,12 @@
-import 'package:floor/floor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:layout/shopping_cart.dart';
+import 'package:logger/logger.dart';
 
 import 'cart_db/cart_entity.dart';
 import 'cart_db/database.dart';
+
+var count = 0;
 
 class Utils {
   void makeASnackBar(String message, BuildContext context) {
@@ -21,8 +23,9 @@ class Utils {
         MaterialPageRoute(builder: (context) => const ShoppingCartPage()));
   }
 
-/*  Future<int> getItemCount() async {
-    List<CartEntity> myCartList = [];
+  getCartCount() async {
+    var log = Logger();
+    List<String> myCartList = [];
     final database =
         await $FloorAppDatabase.databaseBuilder('my_database.db').build();
     var myDao = database.cartDao;
@@ -30,20 +33,12 @@ class Utils {
     myData.listen((value) {
       myCartList.clear();
       for (var item in value) {
-        myCartList.add(item);
+        myCartList.add(item.title);
       }
+      log.e(myCartList.length);
+      count = myCartList.length;
     });
-    int numItems = myCartList.length;
 
-    return numItems;
+    return count;
   }
-
-  Future<int> getCount() async {
-    //database connection
-    final db = await $FloorAppDatabase.databaseBuilder('my_databse.db').build();
-    var myDao = db.cartDao;
-    var myCount = myDao.getItemCount();
-
-    return myCount;
-  }*/
 }

@@ -1,10 +1,16 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/detail.dart';
 import 'package:layout/product_data.dart';
+import 'package:layout/providers.dart';
 import 'package:layout/services/api_service.dart';
 import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
+
+import 'cart_db/cart_entity.dart';
+import 'cart_db/database.dart';
+import 'package:provider/provider.dart';
 
 ////https://fakestoreapi.com/docs
 
@@ -18,8 +24,14 @@ class ProductGrid2 extends StatefulWidget {
 }
 
 class _ProductGrid2State extends State<ProductGrid2> {
+  @override
+  void initState() {
+   // getData();
+    super.initState();
+  }
   var log = Logger();
   var utils = Utils();
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +47,18 @@ class _ProductGrid2State extends State<ProductGrid2> {
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              utils.navigateToShoppingCart(context);
-            },
-            icon: Image.asset('images/cart7.png'),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+            child: Badge(
+              badgeContent: Text('${context.watch<CartItemCounter>().itemCount}'),
+              badgeColor: Colors.yellow,
+              child: IconButton(
+                onPressed: () {
+                  utils.navigateToShoppingCart(context);
+                },
+                icon: Image.asset('images/cart7.png'),
+              ),
+            ),
           )
         ],
       ),

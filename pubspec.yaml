@@ -11,7 +11,9 @@ dependencies:
   logger: any
   dio: any
   floor: any
-  badges: ^2.0.1
+  badges: ^2.0.2
+  need_resume: ^1.0.6
+  provider: any
 
 
   flutter:

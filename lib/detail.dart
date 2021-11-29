@@ -1,10 +1,13 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
 import 'package:layout/product_data.dart';
+import 'package:layout/providers.dart';
 import 'package:layout/utils.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class DetailPage extends StatefulWidget {
   final ProductData data;
@@ -16,9 +19,12 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+
+
   var log = Logger();
   var utils = Utils();
   int qty = 1;
+  int numItems = 0;
 
   void increment() {
     setState(() {
@@ -34,6 +40,8 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var myData = widget.data;
@@ -46,11 +54,18 @@ class _DetailPageState extends State<DetailPage> {
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
           actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                utils.navigateToShoppingCart(context);
-              },
-              icon: Image.asset('images/cart7.png'),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+              child: Badge(
+                badgeContent: Text('${context.watch<CartItemCounter>().itemCount}'),
+                badgeColor: Colors.yellow,
+                child: IconButton(
+                  onPressed: () {
+                    utils.navigateToShoppingCart(context);
+                  },
+                  icon: Image.asset('images/cart7.png'),
+                ),
+              ),
             )
           ],
         ),
@@ -135,10 +150,12 @@ class _DetailPageState extends State<DetailPage> {
             ),
             Padding(
               //**********Add To Cart Button***********
-              padding: const EdgeInsets.only(top: 24.0, left: 16, right: 16, bottom: 24),
+              padding: const EdgeInsets.only(
+                  top: 24.0, left: 16, right: 16, bottom: 24),
               child: MaterialButton(
                 onPressed: () async {
                   //utils.makeASnackBar('Added to Cart', context);
+                  context.read<CartItemCounter>().plusOne();
                   final database = await $FloorAppDatabase
                       .databaseBuilder('my_database.db')
                       .build();
