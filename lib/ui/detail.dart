@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:layout/cart_db/cart_entity.dart';
 import 'package:layout/cart_db/database.dart';
+import 'package:layout/ui/product_grid.dart';
 import 'package:layout/utils/product_data.dart';
 import 'package:layout/utils/providers.dart';
 import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DetailPage extends StatefulWidget {
   final ProductData data;
@@ -169,7 +171,16 @@ class _DetailPageState extends State<DetailPage> {
                       quantity: qty);
 
                   cartDao.insertCartItem(addedItem);
-                  Navigator.of(context).pop();
+                  Navigator.pop(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.scale,
+                          alignment: Alignment.center,
+                          curve: Curves.elasticInOut,
+                          reverseDuration: const Duration(microseconds: 6000),
+                          child: ProductGrid(myCategory: myData.category,)
+                        ,)
+                      );
                   utils.makeASnackBar('Item added to Cart', context);
                 },
                 color: Colors.purple,

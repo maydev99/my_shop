@@ -8,6 +8,8 @@ import 'package:layout/services/api_service.dart';
 import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
+
 
 ////https://fakestoreapi.com/docs
 
@@ -83,10 +85,13 @@ class _ProductGridState extends State<ProductGrid> {
 
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => DetailPage(
-                                      data: myProductData,
-                                    )));
+                            PageTransition(
+                                type: PageTransitionType.scale,
+                                alignment: Alignment.center,
+                                duration: const Duration(milliseconds: 600),
+                                reverseDuration: const Duration(microseconds: 600),
+                                child: DetailPage(data: myProductData)
+                            ));
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(

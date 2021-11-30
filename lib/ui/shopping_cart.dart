@@ -6,6 +6,7 @@ import 'package:layout/utils/providers.dart';
 import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);

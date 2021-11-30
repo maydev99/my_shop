@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:layout/ui/shopping_cart.dart';
 import 'package:logger/logger.dart';
-
+import 'package:page_transition/page_transition.dart';
 import '../cart_db/cart_entity.dart';
 import '../cart_db/database.dart';
 
@@ -20,7 +20,13 @@ class Utils {
 
   void navigateToShoppingCart(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const ShoppingCartPage()));
+        PageTransition(
+            type: PageTransitionType.scale,
+            alignment: Alignment.topRight,
+            duration: const Duration(milliseconds: 600),
+            reverseDuration: const Duration(microseconds: 600),
+            child: const ShoppingCartPage()
+        ));
   }
 
   getCartCount() async {

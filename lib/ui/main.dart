@@ -8,6 +8,7 @@ import 'package:layout/utils/providers.dart';
 import 'package:layout/utils/utils.dart';
 import 'package:logger/logger.dart';
 import 'package:need_resume/need_resume.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -69,7 +70,6 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
         count++;
       }
       context.read<CartItemCounter>().setItemCount(count);
-
     });
   }
 
@@ -88,7 +88,8 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0, top: 8.0),
             child: Badge(
-              badgeContent: Text('${context.watch<CartItemCounter>().itemCount}'),
+              badgeContent:
+                  Text('${context.watch<CartItemCounter>().itemCount}'),
               badgeColor: Colors.yellow,
               child: IconButton(
                 onPressed: () {
@@ -127,10 +128,14 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProductGrid(
-                                  myCategory: 'electronics',
-                                )));
+                        PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.topRight,
+                            duration: const Duration(milliseconds: 600),
+                            reverseDuration: const Duration(microseconds: 600),
+                            child: const ProductGrid(
+                              myCategory: 'electronics',
+                            )));
                   },
                   color: Colors.purple,
                   textColor: Colors.white,
@@ -146,10 +151,14 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProductGrid(
-                                  myCategory: 'jewelery',
-                                )));
+                        PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.center,
+                            duration: const Duration(milliseconds: 600),
+                            reverseDuration: const Duration(microseconds: 600),
+                            child: const ProductGrid(
+                              myCategory: 'electronics',
+                            )));
                   },
                   color: Colors.purple,
                   textColor: Colors.white,
@@ -165,10 +174,14 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProductGrid(
-                                  myCategory: "men's clothing",
-                                )));
+                        PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.center,
+                            duration: const Duration(milliseconds: 600),
+                            reverseDuration: const Duration(microseconds: 600),
+                            child: const ProductGrid(
+                              myCategory: 'electronics',
+                            )));
                   },
                   color: Colors.purple,
                   textColor: Colors.white,
@@ -184,10 +197,14 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProductGrid(
-                                  myCategory: "women's clothing",
-                                )));
+                        PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.center,
+                            duration: const Duration(milliseconds: 600),
+                            reverseDuration: const Duration(microseconds: 600),
+                            child: const ProductGrid(
+                              myCategory: 'electronics',
+                            )));
                   },
                   color: Colors.purple,
                   textColor: Colors.white,
