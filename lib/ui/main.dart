@@ -157,7 +157,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                             duration: const Duration(milliseconds: 600),
                             reverseDuration: const Duration(microseconds: 600),
                             child: const ProductGrid(
-                              myCategory: 'electronics',
+                              myCategory: 'jewelery',
                             )));
                   },
                   color: Colors.purple,
@@ -180,7 +180,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                             duration: const Duration(milliseconds: 600),
                             reverseDuration: const Duration(microseconds: 600),
                             child: const ProductGrid(
-                              myCategory: 'electronics',
+                              myCategory: "men's clothing",
                             )));
                   },
                   color: Colors.purple,
@@ -203,7 +203,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
                             duration: const Duration(milliseconds: 600),
                             reverseDuration: const Duration(microseconds: 600),
                             child: const ProductGrid(
-                              myCategory: 'electronics',
+                              myCategory: "women's clothing",
                             )));
                   },
                   color: Colors.purple,
