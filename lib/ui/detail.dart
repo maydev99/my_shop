@@ -13,12 +13,14 @@ import 'package:page_transition/page_transition.dart';
 
 class DetailPage extends StatefulWidget {
   final ProductData data;
+  
 
   const DetailPage({Key? key, required this.data}) : super(key: key);
 
   @override
   _DetailPageState createState() => _DetailPageState();
 }
+
 
 class _DetailPageState extends State<DetailPage> {
 

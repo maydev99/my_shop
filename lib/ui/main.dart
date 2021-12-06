@@ -88,10 +88,12 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0, top: 8.0),
             child: Badge(
+              key: const Key('main_badge_key'),
               badgeContent:
                   Text('${context.watch<CartItemCounter>().itemCount}'),
               badgeColor: Colors.yellow,
               child: IconButton(
+                key: const Key('main_cart_icon_key'),
                 onPressed: () {
                   utils.navigateToShoppingCart(context);
                 },
@@ -109,6 +111,7 @@ class _MyHomePageState extends ResumableState<MyHomePage> {
             children: [
               const Text(
                 'shoppe michael',
+                key: Key('main_title_key'),
                 style: TextStyle(
                     fontSize: 100,
                     fontWeight: FontWeight.bold,
